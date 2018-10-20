@@ -1,0 +1,59 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail view for question {{ question.pk }}</title>
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+            integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+            crossorigin="anonymous"
+    >
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/css/general.css' %}"/>
+</head>
+<body>
+<h1>{{ question.text }}</h1>
+
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+<div class="form-group margins">
+    <form action="{%  url 'polls:vote' question.id %}" method="post">
+        {%  csrf_token %}
+        {% for choice in question.choice_set.all %}
+            <div class="form-group">
+                <input
+                        type="radio"
+                        name="choice"
+                        value="{{ choice.id }}"
+                />
+                <label
+                        for="choice{{ forloop.counter }}">{{ choice.choice_text }}
+                </label>
+            </div>
+        {% endfor %}
+        <div>
+            <input type="submit" value="Vote">
+        </div>
+    </form>
+</div>
+
+<br/>
+
+<div class="form-group margins">
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" id="choice" name="choice_text" />
+        <input type="submit" value="Post choice">
+    </form>
+    <div class="form-group margins">
+        <a href="{% url 'polls:index' %}">Back</a>
+    </div>
+</div>
+
+
+</body>
+</html>

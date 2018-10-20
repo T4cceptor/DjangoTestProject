@@ -1,0 +1,43 @@
+version: '2'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: ng01
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/src
+      - ./config/nginx:/etc/nginx/conf.d
+      - staticfiles-volume:/static
+    depends_on:
+      - web
+  web:
+    build: .
+    container_name: web
+    volumes:
+      - ./src:/src
+      - staticfiles-volume:/static
+    expose:
+      - "8000"
+    links:
+      - db
+    depends_on:
+      - db
+    command:
+        bash -c "python manage.py runserver 0.0.0.0:8000"
+  db:
+    image: postgres:latest
+    container_name: db_01
+    hostname: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+      
+volumes:
+  postgres-volume:
+  staticfiles-volume:

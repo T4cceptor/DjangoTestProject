@@ -1,0 +1,31 @@
+Docker / Django tutorial
+
+- install docker
+
+- install python + pip
+
+- on windows: set path vars accordingly
+
+- install virtualenv:
+pip install virtualenv
+
+- setup virtualenv:
+python -m venv J:\_PyCharmWS\DjangoPlayground\src
+
+- activate virtualenv:
+checkout activate.bat in Scripts folder
+
+- install django:
+pip install django
+
+- After installing django with pip start new django project with:
+django-admin startproject mysite
+
+- Important commands:
+
+winpty docker-compose exec web python manage.py makemigrations
+winpty docker-compose exec web python manage.py migrate
+winpty docker-compose exec web python manage.py createsuperuser
+
+# collects static files for later delivery by the server
+winpty docker-compose exec web python manage.py collectstatic
