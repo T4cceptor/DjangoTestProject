@@ -5,3 +5,11 @@ div {
 .margins {
     margin: 15px
 }
+
+div.yeah {
+    background: white url("../images/test.png") no-repeat right bottom;
+}
+
+li a {
+    color: green;
+}
